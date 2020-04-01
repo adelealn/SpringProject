@@ -17,4 +17,6 @@ public interface SeanceService {
 
 	public Seance update(Seance s);
 
+	public void ajouterClient(String sid, String cid);
+
 }

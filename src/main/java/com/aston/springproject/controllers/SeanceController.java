@@ -31,6 +31,12 @@ public class SeanceController {
 		return this.service.save(entity);
 	}
 	
+	//Ajouter un client à une séance
+	@PostMapping("{sid}/assister/{cid}")
+	public void ajouterClient(@PathVariable String sid,@PathVariable String cid ) {
+		this.service.ajouterClient(sid, cid);
+	}
+	
 	//Modifier Séance
 	@PutMapping("")
 	public Seance update(@RequestBody Seance s){
