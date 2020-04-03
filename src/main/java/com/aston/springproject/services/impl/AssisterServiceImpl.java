@@ -2,14 +2,18 @@ package com.aston.springproject.services.impl;
 
 import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aston.springproject.models.Assister;
 import com.aston.springproject.models.Client;
+import com.aston.springproject.repositories.AssisterRepository;
 import com.aston.springproject.services.AssisterService;
 
 @Service
 public class AssisterServiceImpl implements AssisterService{
+	
+	@Autowired AssisterRepository repo;
 
 	@Override
 	public Assister ajouterAssister(Client client, String seanceType) {
@@ -37,6 +41,6 @@ public class AssisterServiceImpl implements AssisterService{
 			prix -= 2;
 		}
 		assister.setPrix(prix);
-		return assister;
+		return this.repo.save(assister);
 	}	
 }

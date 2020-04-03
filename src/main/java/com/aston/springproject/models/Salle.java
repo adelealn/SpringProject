@@ -1,5 +1,6 @@
 package com.aston.springproject.models;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import lombok.AllArgsConstructor;
@@ -12,8 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Salle {
 	
+	@Id
+	private String id;
 	@DBRef
 	private Cinema cinema;
 	private String nom;
-	private Integer place;
+	private int place;
 }

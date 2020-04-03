@@ -1,8 +1,5 @@
 package com.aston.springproject.models;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,8 +16,8 @@ public class Film {
 	@Id
 	private String id;
 	private String titre;
-	private Integer duree;
-	private Integer ageLimite;
+	private int duree;
+	private int ageLimite;
 	private String genre;
 	private String visa;
 }

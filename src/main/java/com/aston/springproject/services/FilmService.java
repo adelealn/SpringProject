@@ -17,4 +17,6 @@ public interface FilmService {
 
 	public Film update(Film f);
 
+	public float getFilmRecette(String fid);
+	
 }

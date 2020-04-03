@@ -44,10 +44,18 @@ public class FilmController {
 	}
 	
 	//Récupérer un film dans la bdd grace à son id
-	@GetMapping("{id}")
-	public Optional<Film> findById(@PathVariable String id) {
-		return this.service.findById(id);
+	@GetMapping("{fid}")
+	public Optional<Film> findById(@PathVariable String fid) {
+		return this.service.findById(fid);
 	}
+	
+	//Savoir combien a rapporté un film
+	@GetMapping("{fid}/recette")
+	public float getFilmRecette(@ PathVariable String fid) {
+		return this.service.getFilmRecette(fid);
+	}
+	
+	
 	
 	//Supprimer un film
 	@DeleteMapping("")

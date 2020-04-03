@@ -1,6 +1,9 @@
 package com.aston.springproject.dto;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import com.aston.springproject.models.Cinema;
 import com.aston.springproject.models.Salle;
@@ -14,7 +17,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CinemaDTO {
 	
+	@DBRef
 	private Cinema cinema;
-	private List<Salle> salles;
+	@DBRef
+	private List<Salle> salles = new ArrayList<>();
 
 }

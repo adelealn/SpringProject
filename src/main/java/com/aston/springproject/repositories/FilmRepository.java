@@ -6,5 +6,7 @@ import com.aston.springproject.models.Film;
 
 public interface FilmRepository extends MongoRepository<Film, String>{
 
+	public Iterable<Film> findByTitre(String titre);
+
 
 }

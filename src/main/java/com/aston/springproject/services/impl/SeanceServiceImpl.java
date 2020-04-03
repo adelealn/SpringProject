@@ -1,5 +1,6 @@
 package com.aston.springproject.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,8 +11,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.aston.springproject.models.Assister;
 import com.aston.springproject.models.Client;
+import com.aston.springproject.models.Film;
 import com.aston.springproject.models.Seance;
 import com.aston.springproject.repositories.ClientRepository;
+import com.aston.springproject.repositories.FilmRepository;
 import com.aston.springproject.repositories.SeanceRepository;
 import com.aston.springproject.services.AssisterService;
 import com.aston.springproject.services.SeanceService;
@@ -21,6 +24,7 @@ public class SeanceServiceImpl implements SeanceService{
 	
 	@Autowired private SeanceRepository repo;
 	@Autowired private ClientRepository clientrepo;
+	@Autowired private FilmRepository filmrepo;
 	@Autowired private SeanceService seanceService; 
 	@Autowired private AssisterService assisterService;
 
@@ -68,8 +72,6 @@ public class SeanceServiceImpl implements SeanceService{
 			Optional<Client> optC = this.clientrepo.findById(cid);
 			if (optC.isPresent()) {
 				Assister assister = assisterService.ajouterAssister(optC.get(), s.getType());
-			/*Assister assister = new Assister();
-			assister.setClient(optC.get());*/
 				s.getClients().add(assister);
 				this.save(s);
 			}
@@ -80,6 +82,62 @@ public class SeanceServiceImpl implements SeanceService{
 		else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La séance d'id: "+sid+" n'existe pas");
 		}
+	}
+
+	@Override
+	public float getSeanceRecette(String sid) {
+		Optional<Seance> optS = this.seanceService.findById(sid);
+		float recetteSeance = 0F;
+		if (optS.isPresent()) {
+			Seance s = optS.get();
+			List<Assister> clients = s.getClients();
+			
+			for (Assister a : clients) {
+				if (a != null) {
+					recetteSeance += a.getPrix();
+				}
+			}
+			return recetteSeance;
+		}
+		else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La séance d'id: "+sid+" n'existe pas");
+		}
+	}
+
+	@Override
+	public int getPlacesRestantes(String sid) {
+		Optional<Seance> optS = this.seanceService.findById(sid);
+		if (optS.isPresent()) {
+			Seance s = optS.get();
+			List<Assister> clients = s.getClients();
+			if (s.getSalle() != null) {
+				int placesalle =s.getSalle().getPlace();
+				if (clients != null) {
+					int placesutilisees = clients.size();
+					return placesalle-placesutilisees;
+				}
+				else {
+					throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aucun client n'assiste à la séance d'id: "+sid);
+				}
+			}
+			else {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La séance d'id: "+sid+" n'est diffusée dans aucune salle");
+			}
+		}
+		else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "La séance d'id: "+sid+" n'existe pas");
+		}
+	}
+
+	@Override
+	public List<Seance> findAllByFilmTitre(String titre) {
+		Iterable<Film> films = this.filmrepo.findByTitre(titre);
+		return this.repo.findAllByFilmIn(films);
+	}
+
+	@Override
+	public List<Seance> findSeanceBetweenMinMax(LocalDateTime min, LocalDateTime max) {
+		return this.repo.findSeanceByDateBetween(min,max);
 	}
 
 	
