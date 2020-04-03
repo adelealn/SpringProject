@@ -13,7 +13,7 @@ public interface FilmService {
 
 	public Optional<Film> findById(String fid);
 
-	public void delete(String fid);
+	public void deleteById(String fid);
 
 	public Film update(Film f);
 

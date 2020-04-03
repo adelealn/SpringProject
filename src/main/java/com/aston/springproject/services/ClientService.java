@@ -13,7 +13,7 @@ public interface ClientService {
 
 	public Optional<Client> findById(String id);
 
-	public void delete(String id);
+	public void deleteById(String cid);
 
 	public Client update(Client c);
 

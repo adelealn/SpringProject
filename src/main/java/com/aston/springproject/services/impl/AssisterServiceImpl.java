@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aston.springproject.exceptions.NotFoundException;
 import com.aston.springproject.models.Assister;
 import com.aston.springproject.models.Client;
 import com.aston.springproject.repositories.AssisterRepository;
@@ -20,7 +21,7 @@ public class AssisterServiceImpl implements AssisterService{
 		Assister assister = new Assister();
 		assister.setClient(client);
 		
-		//Calcul du prix du ticket en fonction du type de séance seanceType, de l'age du client et de son statut d'étudiant
+		//Calcul du prix du ticket en fonction du type de séance seanceType
 		float prix = 10;
 		if (seanceType.equals("3D")) {
 			prix += 3;
@@ -31,14 +32,25 @@ public class AssisterServiceImpl implements AssisterService{
 		else if (seanceType.equals("4DX")) {
 			prix += 8;
 		}
-		//On récupère l'age du client
-		Integer age = LocalDate.now().getYear()-client.getNaissance().getYear();
+		//Réduction du prix si le client a moins de 10 ans
+		if (client.getNaissance() != null) {
+			int age = LocalDate.now().getYear()-client.getNaissance().getYear();
 		
-		if (age<10){
-			prix -= 4;
+			if (age<10){
+				prix -= 4;
+			}
+		} 
+		else {
+			throw new NotFoundException("La date de naissance du client n'a pas été fournie");
 		}
-		if (client.getEtudiant()) {
-			prix -= 2;
+		// Réduction du prix si le client est étudiant
+		if (client.getEtudiant() != null) {
+			if (client.getEtudiant()) {
+				prix -= 2;
+			}
+		}
+		else {
+			throw new NotFoundException("Le statut d'étudiant du client n'a pas été fourni");
 		}
 		assister.setPrix(prix);
 		return this.repo.save(assister);

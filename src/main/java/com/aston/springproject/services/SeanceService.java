@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.web.bind.annotation.PathVariable;
-
-import com.aston.springproject.models.Film;
 import com.aston.springproject.models.Seance;
 
 public interface SeanceService {
@@ -17,7 +14,7 @@ public interface SeanceService {
 
 	public Optional<Seance> findById(String id);
 
-	public void delete(String id);
+	public void deleteById(String id);
 
 	public Seance update(Seance s);
 
