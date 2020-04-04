@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.aston.springproject.dto.CritereDTO;
 import com.aston.springproject.models.Seance;
 
 public interface SeanceService {
@@ -27,5 +30,7 @@ public interface SeanceService {
 	public List<Seance> findAllByFilmTitre(String titre);
 	
 	public List<Seance> findSeanceBetweenMinMax(LocalDateTime min, LocalDateTime max);
+	
+	public List<Seance> findSeanceAvecCriteres(@RequestBody CritereDTO critere);
 
 }

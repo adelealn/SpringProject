@@ -7,8 +7,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.aston.springproject.models.Film;
 import com.aston.springproject.models.Seance;
+import com.aston.springproject.repositories.custom.SeanceRepositoryCustom;
 
-public interface SeanceRepository extends MongoRepository<Seance, String>{
+public interface SeanceRepository extends MongoRepository<Seance, String>, SeanceRepositoryCustom{
 	
 	public List<Seance> findAllByFilmIn(Iterable<Film> films);
 

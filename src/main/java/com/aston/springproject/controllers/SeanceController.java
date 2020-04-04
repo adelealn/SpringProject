@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aston.springproject.dto.CritereDTO;
 import com.aston.springproject.models.Seance;
 import com.aston.springproject.services.SeanceService;
 
@@ -90,6 +91,11 @@ public class SeanceController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<Seance> findSeanceBetweenMinMax(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime min, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime max) {
 		return this.service.findSeanceBetweenMinMax(min,max);
+	}
+	
+	@GetMapping("")
+	public List<Seance> findSeanceAvecCriteres(@RequestBody CritereDTO critere){
+		return null;
 	}
 	
 	//Supprimer une séance

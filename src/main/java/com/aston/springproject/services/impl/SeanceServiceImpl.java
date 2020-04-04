@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aston.springproject.dto.CritereDTO;
 import com.aston.springproject.exceptions.ForbiddenException;
 import com.aston.springproject.exceptions.NotFoundException;
 import com.aston.springproject.models.Assister;
@@ -17,6 +18,7 @@ import com.aston.springproject.models.Seance;
 import com.aston.springproject.repositories.ClientRepository;
 import com.aston.springproject.repositories.FilmRepository;
 import com.aston.springproject.repositories.SeanceRepository;
+import com.aston.springproject.repositories.custom.SeanceRepositoryCustom;
 import com.aston.springproject.services.AssisterService;
 import com.aston.springproject.services.SeanceService;
 
@@ -28,6 +30,7 @@ public class SeanceServiceImpl implements SeanceService{
 	@Autowired private FilmRepository filmrepo;
 	@Autowired private SeanceService seanceService; 
 	@Autowired private AssisterService assisterService;
+	@Autowired private SeanceRepositoryCustom seancecustomrepo;
 
 	@Override
 	public Seance save(Seance s) {
@@ -146,6 +149,12 @@ public class SeanceServiceImpl implements SeanceService{
 	@Override
 	public List<Seance> findSeanceBetweenMinMax(LocalDateTime min, LocalDateTime max) {
 		return this.repo.findSeanceByDateBetween(min,max);
+	}
+
+	@Override
+	public List<Seance> findSeanceAvecCriteres(CritereDTO critere) {
+		// TODO Auto-generated method stub
+		return this.seancecustomrepo.findCustom(critere);
 	}
 
 	
