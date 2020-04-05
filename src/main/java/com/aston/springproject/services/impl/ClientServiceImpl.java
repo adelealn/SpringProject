@@ -38,7 +38,7 @@ public class ClientServiceImpl implements ClientService{
 			return optC;
 		}
 		else {
-			throw new NotFoundException(cid, optC.getClass().getSimpleName());
+			throw new NotFoundException(cid, "Client");
 		}
 	}
 

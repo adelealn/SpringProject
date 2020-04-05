@@ -93,9 +93,10 @@ public class SeanceController {
 		return this.service.findSeanceBetweenMinMax(min,max);
 	}
 	
-	@GetMapping("")
+	//Rechercher seances selon criteres
+	@GetMapping("/recherche")
 	public List<Seance> findSeanceAvecCriteres(@RequestBody CritereDTO critere){
-		return null;
+		return this.service.findSeanceAvecCriteres(critere);
 	}
 	
 	//Supprimer une séance

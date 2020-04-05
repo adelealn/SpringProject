@@ -59,13 +59,17 @@ public class ClientController {
 	@DeleteMapping("")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void delete(@RequestBody Client c) {
-		this.deleteById(c.getId());
+		if (c.getId()!=null) {
+			this.deleteById(c.getId());
+		}
 	}
 	
 	//Supprimer un client ayant un id particulier
 	@DeleteMapping("{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void deleteById(@PathVariable String id) {
-		this.service.deleteById(id);
+		if (id !=null ) {
+			this.service.deleteById(id);
+		}
 	}
 }

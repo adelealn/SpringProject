@@ -18,7 +18,6 @@ import com.aston.springproject.models.Seance;
 import com.aston.springproject.repositories.ClientRepository;
 import com.aston.springproject.repositories.FilmRepository;
 import com.aston.springproject.repositories.SeanceRepository;
-import com.aston.springproject.repositories.custom.SeanceRepositoryCustom;
 import com.aston.springproject.services.AssisterService;
 import com.aston.springproject.services.SeanceService;
 
@@ -30,7 +29,6 @@ public class SeanceServiceImpl implements SeanceService{
 	@Autowired private FilmRepository filmrepo;
 	@Autowired private SeanceService seanceService; 
 	@Autowired private AssisterService assisterService;
-	@Autowired private SeanceRepositoryCustom seancecustomrepo;
 
 	@Override
 	public Seance save(Seance s) {
@@ -54,7 +52,7 @@ public class SeanceServiceImpl implements SeanceService{
 			return optS;
 		}
 		else {
-			throw new NotFoundException(sid, optS.getClass().getSimpleName());
+			throw new NotFoundException(sid, "Seance");
 		}
 	}
 
@@ -83,14 +81,19 @@ public class SeanceServiceImpl implements SeanceService{
 			// On regarde si la date de naissance du client est informée
 			if (client.getNaissance() != null) {
 				int ageClient = LocalDate.now().getYear()-client.getNaissance().getYear();
-				int ageLimiteSeance = s.getFilm().getAgeLimite();
-				if (ageClient > ageLimiteSeance) {
-					Assister assister = assisterService.ajouterAssister(client, s.getType());
-					s.getClients().add(assister);
-					this.save(s);
+				if (s.getFilm() != null) {
+					int ageLimiteSeance = s.getFilm().getAgeLimite();
+					if (ageClient > ageLimiteSeance) {
+						Assister assister = assisterService.ajouterAssister(client, s.getType());
+						s.getClients().add(assister);
+						this.save(s);
+					}
+					else {
+						throw new ForbiddenException("client",cid,"séance",sid,"le client n'a pas l'age requis pour ce film" );
+					}
 				}
 				else {
-					throw new ForbiddenException("client",cid,"séance",sid,"le client n'a pas l'age requis pour ce film" );
+					throw new NotFoundException("Aucun film ne correspond à cette séance");
 				}
 			}
 			else {
@@ -154,9 +157,7 @@ public class SeanceServiceImpl implements SeanceService{
 	@Override
 	public List<Seance> findSeanceAvecCriteres(CritereDTO critere) {
 		// TODO Auto-generated method stub
-		return this.seancecustomrepo.findCustom(critere);
+		return this.repo.findCustom(critere);
 	}
-
-	
 
 }

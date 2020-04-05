@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CritereDTO {
 	private String filmGenre;
-	private LocalDateTime horaireMin;
-	private LocalDateTime horaireMax;
-	private int ageLimite;
+	private LocalDateTime HoraireMin;
+	private LocalDateTime HoraireMax;
+	private int AgeLimite;
 	private String seanceType;
 }

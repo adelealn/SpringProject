@@ -66,7 +66,9 @@ public class FilmController {
 	@DeleteMapping("")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void delete(@RequestBody Film f) {
-		this.deleteById(f.getId());
+		if (f.getId() != null) {
+			this.deleteById(f.getId());
+		}
 	}
 	
 	//Supprimer un Film ayant un id particulier

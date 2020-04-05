@@ -18,7 +18,7 @@ public class SeanceRepositoryCustomImpl implements SeanceRepositoryCustom{
 	public List<Seance> findCustom(CritereDTO critere){
 		Query query = new Query();
 		if (critere.getAgeLimite() != 0) {
-			query.addCriteria((Criteria.where("ageLimite")).is(critere.getAgeLimite()));
+			query.addCriteria((Criteria.where("ageLimite")).gte(critere.getAgeLimite()));
 		}
 		if (critere.getFilmGenre() != null) {
 			query.addCriteria((Criteria.where("genre")).is(critere.getFilmGenre()));

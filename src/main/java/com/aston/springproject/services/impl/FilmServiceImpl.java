@@ -41,7 +41,7 @@ public class FilmServiceImpl implements FilmService{
 			return optF;
 		}
 		else {
-			throw new NotFoundException(fid, optF.getClass().getSimpleName());
+			throw new NotFoundException(fid, "Film");
 		}
 	}
 
@@ -58,13 +58,19 @@ public class FilmServiceImpl implements FilmService{
 	@Override
 	public float getFilmRecette(String fid) {
 		Optional<Film> optF = this.repo.findById(fid);
-		float recetteFilm = 0F;
-		Film f = optF.get();
-		List<Seance> seances = this.seanceservice.findAllByFilmTitre(f.getTitre());
-		for (Seance s : seances) {
-			recetteFilm += this.seanceservice.getSeanceRecette(s.getId());
+		if (optF.isPresent()) {
+			float recetteFilm = 0F;
+			Film f = optF.get();
+			List<Seance> seances = this.seanceservice.findAllByFilmTitre(f.getTitre());
+			for (Seance s : seances) {
+				recetteFilm += this.seanceservice.getSeanceRecette(s.getId());
+			}
+			return recetteFilm;
 		}
-		return recetteFilm;
+		else {
+			throw new NotFoundException(fid, "Film");
+		}
+		
 	}
 
 }
